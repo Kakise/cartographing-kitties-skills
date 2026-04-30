@@ -35,10 +35,10 @@ None.
 
 Trigger structural indexing of the codebase.
 
-    Args:
-        full: If True, re-index all files. If False (default), only index changed files.
+Args:
+    full: If True, re-index all files. If False (default), only index changed files.
 
-    Returns stats about files parsed, nodes created, edges created.
+Returns stats about files parsed, nodes created, edges created.
 
 ### Parameters
 

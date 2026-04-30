@@ -7,17 +7,17 @@ tool signatures/docstrings, then run `uv run python scripts/generate_tool_refere
 
 Record a negative lesson in the litter box.
 
-    Use this to remember failures, anti-patterns, unsupported approaches,
-    regressions, and things to never do again.
+Use this to remember failures, anti-patterns, unsupported approaches,
+regressions, and things to never do again.
 
-    Args:
-        category: One of 'failure', 'anti-pattern', 'unsupported', 'regression', 'never-do'.
-        description: What happened or what to avoid.
-        context: Optional additional context (file paths, error messages, etc.).
-        source_agent: Optional identifier of the agent recording this.
+Args:
+    category: One of 'failure', 'anti-pattern', 'unsupported', 'regression', 'never-do'.
+    description: What happened or what to avoid.
+    context: Optional additional context (file paths, error messages, etc.).
+    source_agent: Optional identifier of the agent recording this.
 
-    Returns:
-        Dict with the new entry id, box name, and export path.
+Returns:
+    Dict with the new entry id, box name, and export path.
 
 ### Parameters
 
@@ -75,17 +75,17 @@ Record a negative lesson in the litter box.
 
 Record a positive lesson in the treat box.
 
-    Use this to remember best practices, validated patterns, conventions,
-    optimizations, and things to always do.
+Use this to remember best practices, validated patterns, conventions,
+optimizations, and things to always do.
 
-    Args:
-        category: One of 'best-practice', 'validated-pattern', 'always-do', 'convention', 'optimization'.
-        description: The positive pattern or practice.
-        context: Optional additional context (file paths, examples, etc.).
-        source_agent: Optional identifier of the agent recording this.
+Args:
+    category: One of 'best-practice', 'validated-pattern', 'always-do', 'convention', 'optimization'.
+    description: The positive pattern or practice.
+    context: Optional additional context (file paths, examples, etc.).
+    source_agent: Optional identifier of the agent recording this.
 
-    Returns:
-        Dict with the new entry id, box name, and export path.
+Returns:
+    Dict with the new entry id, box name, and export path.
 
 ### Parameters
 
@@ -143,13 +143,13 @@ Record a positive lesson in the treat box.
 
 Query negative lessons from the litter box.
 
-    Args:
-        category: Optional filter — one of 'failure', 'anti-pattern', 'unsupported', 'regression', 'never-do'.
-        search: Optional substring to search for in descriptions.
-        limit: Maximum number of entries to return (default 50).
+Args:
+    category: Optional filter — one of 'failure', 'anti-pattern', 'unsupported', 'regression', 'never-do'.
+    search: Optional substring to search for in descriptions.
+    limit: Maximum number of entries to return (default 50).
 
-    Returns:
-        Dict with count and list of matching entries.
+Returns:
+    Dict with count and list of matching entries.
 
 ### Parameters
 
@@ -213,13 +213,13 @@ Query negative lessons from the litter box.
 
 Query positive lessons from the treat box.
 
-    Args:
-        category: Optional filter — one of 'best-practice', 'validated-pattern', 'always-do', 'convention', 'optimization'.
-        search: Optional substring to search for in descriptions.
-        limit: Maximum number of entries to return (default 50).
+Args:
+    category: Optional filter — one of 'best-practice', 'validated-pattern', 'always-do', 'convention', 'optimization'.
+    search: Optional substring to search for in descriptions.
+    limit: Maximum number of entries to return (default 50).
 
-    Returns:
-        Dict with count and list of matching entries.
+Returns:
+    Dict with count and list of matching entries.
 
 ### Parameters
 

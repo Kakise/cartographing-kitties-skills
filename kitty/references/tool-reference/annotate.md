@@ -7,11 +7,11 @@ tool signatures/docstrings, then run `uv run python scripts/generate_tool_refere
 
 Find annotated nodes with placeholder or generic annotation quality.
 
-    Args:
-        limit: Maximum number of annotated nodes to inspect (default 100).
+Args:
+    limit: Maximum number of annotated nodes to inspect (default 100).
 
-    Returns:
-        Dict with count and low-quality node summaries including reasons.
+Returns:
+    Dict with count and low-quality node summaries including reasons.
 
 ### Parameters
 
@@ -49,16 +49,16 @@ Find annotated nodes with placeholder or generic annotation quality.
 
 Find nodes whose code changed since they were annotated.
 
-    A node is stale when its content_hash (set by the indexer) differs from
-    its annotated_content_hash (set when annotations were written). Pre-migration
-    annotated nodes with no annotated_content_hash are also considered stale.
+A node is stale when its content_hash (set by the indexer) differs from
+its annotated_content_hash (set when annotations were written). Pre-migration
+annotated nodes with no annotated_content_hash are also considered stale.
 
-    Args:
-        file_paths: Optional list of file paths to restrict the search to.
-        limit: Maximum number of stale nodes to return (default 50).
+Args:
+    file_paths: Optional list of file paths to restrict the search to.
+    limit: Maximum number of stale nodes to return (default 50).
 
-    Returns:
-        Dict with count and list of stale node summaries.
+Returns:
+    Dict with count and list of stale node summaries.
 
 ### Parameters
 
@@ -112,15 +112,15 @@ Find nodes whose code changed since they were annotated.
 
 Get pending nodes with full context for annotation.
 
-    Returns a batch of nodes with their source code, metadata, and neighbor
-    context so the host agent can generate summaries and tags.
+Returns a batch of nodes with their source code, metadata, and neighbor
+context so the host agent can generate summaries and tags.
 
-    Args:
-        batch_size: Maximum number of nodes to return (default 10, max 100).
-        retry_failed: If True, also include nodes with annotation_status='failed'.
+Args:
+    batch_size: Maximum number of nodes to return (default 10, max 100).
+    retry_failed: If True, also include nodes with annotation_status='failed'.
 
-    Returns:
-        Dict with batch of node contexts, the seed taxonomy, and count.
+Returns:
+    Dict with batch of node contexts, the seed taxonomy, and count.
 
 ### Parameters
 
@@ -164,12 +164,12 @@ Get pending nodes with full context for annotation.
 
 Requeue low-quality annotations so the next annotation pass rewrites them.
 
-    Args:
-        dry_run: If True, report what would be requeued without mutating the DB.
-        limit: Maximum number of annotated nodes to inspect (default 100).
+Args:
+    dry_run: If True, report what would be requeued without mutating the DB.
+    limit: Maximum number of annotated nodes to inspect (default 100).
 
-    Returns:
-        Dict with low-quality, requeued, failed, and dry-run counts.
+Returns:
+    Dict with low-quality, requeued, failed, and dry-run counts.
 
 ### Parameters
 
@@ -213,18 +213,18 @@ Requeue low-quality annotations so the next annotation pass rewrites them.
 
 Submit annotation results for pending nodes.
 
-    Each annotation dict should have:
-        - qualified_name (str): identifies the node
-        - summary (str): one-sentence summary
-        - tags (list[str]): suggested tags
-        - role (str): short role description
-        - failed (bool, optional): set True to mark as failed
+Each annotation dict should have:
+    - qualified_name (str): identifies the node
+    - summary (str): one-sentence summary
+    - tags (list[str]): suggested tags
+    - role (str): short role description
+    - failed (bool, optional): set True to mark as failed
 
-    Args:
-        annotations: List of annotation result dicts.
+Args:
+    annotations: List of annotation result dicts.
 
-    Returns:
-        Dict with written, failed, and skipped counts.
+Returns:
+    Dict with written, failed, and skipped counts.
 
 ### Parameters
 

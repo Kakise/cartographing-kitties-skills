@@ -7,12 +7,12 @@ tool signatures/docstrings, then run `uv run python scripts/generate_tool_refere
 
 Return what structurally changed in the last indexing run.
 
-    Args:
-        file_paths: If provided, filter diff to only these files.
-        include_edges: If True (default), include edge-level diff.
+Args:
+    file_paths: If provided, filter diff to only these files.
+    include_edges: If True (default), include edge-level diff.
 
-    Returns a dict with nodes_added, nodes_removed, nodes_modified,
-    edges_added, edges_removed, and a summary.
+Returns a dict with nodes_added, nodes_removed, nodes_modified,
+edges_added, edges_removed, and a summary.
 
 ### Parameters
 
@@ -66,13 +66,13 @@ Return what structurally changed in the last indexing run.
 
 Validate graph integrity and detect stale data.
 
-    Args:
-        scope: Qualified names or file paths to check. None = all
-               (or last diff's changed nodes if available).
-        checks: Subset of "dangling_edges", "orphan_nodes",
-                "stale_annotations". None = all three.
+Args:
+    scope: Qualified names or file paths to check. None = all
+           (or last diff's changed nodes if available).
+    checks: Subset of "dangling_edges", "orphan_nodes",
+            "stale_annotations". None = all three.
 
-    Returns a dict with ``passed``, ``issues``, and ``summary``.
+Returns a dict with ``passed``, ``issues``, and ``summary``.
 
 ### Parameters
 
