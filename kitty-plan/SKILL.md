@@ -30,7 +30,24 @@ preserved framework subagents may be used as an optimization rather than a hard 
 
 ### Phase 0: Source & Resume
 
-1. Check `docs/plans/` for existing plans matching the topic — offer to resume if found
+1. Check `docs/plans/` for existing plans matching the topic. When one or more
+   matches exist, issue an `AskUserQuestion` (single-select, header `"Resume"`,
+   recommended option first) per `kitty/references/ask-user-protocol.md`:
+
+   ```yaml
+   question: "Resume an existing plan, or start fresh?"
+   header: "Resume"
+   multiSelect: false
+   options:
+     - label: "Resume <plan-file> (Recommended)"
+       description: "Continue with the most recent matching plan."
+     - label: "Start a new plan"
+       description: "Ignore matches and create a new plan file."
+     - label: "Open existing plan in editor"
+       description: "Read the matching plan locally before deciding."
+   ```
+
+   Pipeline mode: skip the prompt and resume the most recent match.
 2. Check `docs/brainstorms/` for requirements documents — use as origin if found
 3. If no origin document, assess whether the request is clear enough for direct planning
 4. Classify plan depth: **Lightweight** (2-4 units), **Standard** (3-6), **Deep** (4-8)
@@ -161,9 +178,20 @@ For each question, decide:
 - **Resolve now** — answer is knowable from Cartographing Kittens research or user input
 - **Defer to implementation** — depends on runtime behavior or code changes
 
-Ask the user only when the answer materially affects architecture, scope, or risk.
+When the answer materially affects architecture, scope, or risk AND research can
+enumerate 2-4 alternatives, ask the user via `AskUserQuestion` per
+`kitty/references/ask-user-protocol.md`. Each question's options come from the
+subgraph context (e.g., the existing patterns surfaced by
+`librarian-kitten-pattern`, the blast radius surfaced by `find_dependents`).
 
-**Pipeline mode:** Resolve questions automatically from research findings.
+Issue one prompt at a time so each answer can shape the next. Skip the prompt
+when the answer is non-material or when no enumerable options exist — defer
+those to the plan body's Open Questions section.
+
+**Pipeline mode:** Skip the `AskUserQuestion` calls. Resolve material questions
+automatically from research findings (pick the recommended option silently),
+and record the implicit choices in the plan's Open Questions section so they
+can be audited later.
 
 ### Phase 3: Structure the Plan
 
@@ -214,12 +242,24 @@ Automatically evaluate whether the plan needs strengthening:
 
 ### Phase 6: Handoff
 
-**Pipeline mode:** Return plan file path. Skip interactive menu.
+**Pipeline mode:** Return plan file path. Skip the `AskUserQuestion` call.
 
-**Interactive mode:** Present options:
-1. Run `kitty:review` on the plan (recommended for Deep plans)
-2. Start `kitty:work` to implement
-3. Open plan in editor
+**Interactive mode:** Issue a single `AskUserQuestion` (single-select, header
+`"Plan handoff"`) per `kitty/references/ask-user-protocol.md`. Recommended
+option = `kitty:review` for Deep plans, otherwise `kitty:work`:
+
+```yaml
+question: "What would you like to do next with this plan?"
+header: "Plan handoff"
+multiSelect: false
+options:
+  - label: "Run kitty:work (Recommended)"
+    description: "Start implementing the plan immediately."
+  - label: "Run kitty:review on the plan"
+    description: "Pre-flight the plan with the reviewer agents (recommended for Deep plans)."
+  - label: "Open the plan in the editor"
+    description: "Read or refine the plan locally before continuing."
+```
 
 ## Contract
 
@@ -227,3 +267,6 @@ Automatically evaluate whether the plan needs strengthening:
 - May use preserved framework subagents when the runtime supports it.
 - Must not depend on a blocking-question tool or a plugin-backed agent registry.
 - Must query litter/treat memory and include a Memory Context section in every non-trivial plan.
+- Must issue every interactive prompt (resume offer, material decisions in
+  Phase 2, handoff menu) via `AskUserQuestion` per
+  `kitty/references/ask-user-protocol.md`. Pipeline mode skips prompts.

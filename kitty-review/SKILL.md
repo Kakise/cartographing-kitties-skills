@@ -231,20 +231,43 @@ Collect findings from delegated reviewers or from inline review passes. Merge:
 ### Stage 6: Present or Apply
 
 **Interactive mode:**
-- Present findings grouped by severity
-- For each P0/P1, ask: fix now, defer, or dismiss?
-- Apply fixes the user approves
+- Present findings grouped by severity.
+- For each P0 finding, issue a per-finding `AskUserQuestion` (single-select,
+  header `"P0 finding"`, recommended option first) per
+  `kitty/references/ask-user-protocol.md`:
+
+  ```yaml
+  question: "[P0] <file:line> — <issue>. How should we handle it?"
+  header: "P0 finding"
+  multiSelect: false
+  options:
+    - label: "Fix now (Recommended)"
+      description: "Apply the suggested fix and re-run tests."
+    - label: "Defer (keep in report)"
+      description: "Leave the finding in the review artifact; do not edit code."
+    - label: "Dismiss"
+      description: "Mark as not-a-bug; suppress in future reports."
+  ```
+
+- For P1/P2 findings, batch them into a single `multiSelect: true`
+  `AskUserQuestion` with header `"Triage"`. Each option carries the severity
+  prefix and a one-sentence summary. If there are more than four findings to
+  triage, batch four at a time and loop.
+- Apply fixes the user approves. P3 findings stay in the report unless the user
+  explicitly opts in.
 
 **Autofix mode (no user interaction):**
-- Apply all `safe_auto` fixes automatically
-- Write remaining findings to a review artifact
-- Re-run tests after fixes
-- If tests fail, revert the last fix if possible and continue conservatively
+- Do NOT call `AskUserQuestion`.
+- Apply all `safe_auto` fixes automatically.
+- Write remaining findings to a review artifact.
+- Re-run tests after fixes.
+- If tests fail, revert the last fix if possible and continue conservatively.
 
 **Report-only mode:**
-- Present findings summary
-- Do NOT edit any files
-- Return structured report
+- Do NOT call `AskUserQuestion`.
+- Present findings summary.
+- Do NOT edit any files.
+- Return structured report.
 
 ### Stage 7: Requirements Verification (if plan provided)
 
@@ -277,3 +300,6 @@ Record durable lessons from the review:
 - May use preserved framework reviewers when the runtime supports it.
 - Must not rely on a plugin-backed agent registry to perform a valid review.
 - Must query litter/treat memory before review and record validated durable lessons after review.
+- Must issue every interactive triage prompt via `AskUserQuestion` per
+  `kitty/references/ask-user-protocol.md`. `mode:autofix` and
+  `mode:report-only` must not call `AskUserQuestion`.

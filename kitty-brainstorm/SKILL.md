@@ -32,7 +32,11 @@ framework subagents may be used as an optimization, not as a requirement.
 
 1. Call `index_codebase(full=false)` to ensure the graph is fresh
 2. If `$ARGUMENTS` is provided, use it as the feature description
-3. If no arguments, ask: "What problem are you trying to solve or what feature are you considering?"
+3. If no arguments, ask the user in plain text: "What problem are you trying to
+   solve or what feature are you considering?" This is the documented free-form
+   exception in `kitty/references/ask-user-protocol.md` (no enumerable options
+   exist before research). Any follow-up refinement of the description must use
+   `AskUserQuestion`.
 4. Query memory for the topic using `query_litter_box(limit=20)` and `query_treat_box(limit=20)`,
    then filtered searches for the strongest 1-2 feature terms. Use relevant entries to frame
    constraints, prior failures, and validated patterns.
@@ -122,20 +126,39 @@ Otherwise, the orchestrator synthesizes the same findings inline:
 
 ### Phase 3: Adaptive Questioning
 
-Use research findings to ask targeted questions, one at a time when interaction is needed:
+Use research findings to ask targeted questions. Each question must be issued via
+`AskUserQuestion` with 2-4 options derived from the research (not invented).
+Follow `kitty/references/ask-user-protocol.md` — recommended option first with
+the `(Recommended)` suffix, header ≤ 12 chars, single-select unless choices are
+truly non-exclusive.
 
-1. **Problem clarity** — "Based on the codebase structure, it looks like [finding]. Is the problem about [X] or [Y]?"
-2. **Scope boundaries** — "Should this include [related area found by research], or is that out of scope?"
-3. **Success criteria** — "How will we know this is working? What should users be able to do?"
-4. **Constraints** — Surface any constraints found by research (e.g., "The current architecture uses [pattern]. Should we follow it or propose something different?")
+Cover at most these four categories, one prompt at a time so the user's answer
+to the previous question can shape the next:
+
+1. **Problem clarity** — header: `"Problem"`. Options enumerate the alternative
+   readings of the request that match research findings (e.g., "Fix the auth
+   middleware bug", "Replace the auth middleware altogether").
+2. **Scope boundaries** — header: `"Scope"`. Options enumerate the related
+   areas surfaced by `librarian-kitten-pattern` / `find_dependents` (e.g.,
+   "Just `src/auth/`", "Auth + session storage", "Auth + session + audit log").
+3. **Success criteria** — header: `"Success"`. Options enumerate observable
+   outcomes (e.g., "All callers migrate", "New callers use new API; old callers
+   stay", "Strict cutover").
+4. **Constraints** — header: `"Pattern"` / `"Constraint"`. Options enumerate the
+   choice between following an existing pattern or proposing a new one.
 
 Stop questioning when:
 - Problem is clear
 - Scope is bounded
 - Success criteria are defined
-- 3-5 questions have been asked (don't over-question)
+- 3-5 prompts have fired (don't over-question)
 
-**Pipeline mode:** If invoked from `kitty:lfg` or another orchestrator, skip interactive questions. Infer requirements from the feature description and research findings.
+If a follow-up cannot be enumerated as 2-4 options, fall back to a free-form
+plain-text question per `ask-user-protocol.md`.
+
+**Pipeline mode:** If invoked from `kitty:lfg` or another orchestrator, skip the
+`AskUserQuestion` calls. Infer requirements from the feature description and
+research findings, picking the recommended option silently for each category.
 
 ### Phase 4: Write Requirements
 
@@ -180,10 +203,22 @@ Template:
 
 **Pipeline mode:** Return the requirements file path and continue.
 
-**Interactive mode:** Present options:
-1. Start `kitty:plan` with this requirements doc
-2. Open requirements in editor for review
-3. Continue refining requirements
+**Interactive mode:** Issue a single `AskUserQuestion` (single-select, header
+`"Brainstorm"`) with the recommended option first. Follow
+`kitty/references/ask-user-protocol.md`:
+
+```yaml
+question: "What would you like to do next with this requirements doc?"
+header: "Brainstorm"
+multiSelect: false
+options:
+  - label: "Run kitty:plan (Recommended)"
+    description: "Turn the requirements into an actionable implementation plan now."
+  - label: "Open in editor"
+    description: "Read or refine the requirements locally before planning."
+  - label: "Keep refining requirements"
+    description: "Stay in brainstorm and ask another round of clarifying questions."
+```
 
 ## Contract
 
@@ -191,3 +226,6 @@ Template:
 - May use preserved framework subagents when the runtime supports it.
 - Must not assume a blocking-question tool or a plugin-backed agent registry.
 - Must query litter/treat memory and include relevant lessons in Codebase Context.
+- Must issue every interactive prompt via `AskUserQuestion` per
+  `kitty/references/ask-user-protocol.md`, except for the single free-form
+  feature-description question in Phase 1 step 3.
