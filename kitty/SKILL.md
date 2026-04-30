@@ -129,6 +129,13 @@ Or use `kitty:lfg` to run plan → work → review autonomously.
 - By default the graph lives in `.pawprints/graph.db` inside the project root
 - Set `KITTY_STORAGE_ROOT` to keep per-project graph data under a centralized storage root instead
 - Indexing is incremental by default — only changed files are re-parsed
+- **Asking the user:** every interactive prompt — handoff menus, clarifying
+  questions, triage decisions — must use Claude Code's `AskUserQuestion` tool
+  with 2-4 enumerable options whenever 2-4 enumerable options exist. Pipeline
+  modes (`kitty:lfg`, `mode:autofix`, `mode:report-only`, autonomous loops)
+  skip prompts and pick the recommended option silently. See
+  [`references/ask-user-protocol.md`](references/ask-user-protocol.md) for the
+  full contract and worked examples.
 
 ## MCP Prompts
 

@@ -30,7 +30,26 @@ default contract is inline execution with graph context gathered by the orchestr
    - Call `query_litter_box(limit=20)` and `query_treat_box(limit=20)`
    - Query the strongest plan/unit terms with `search=<term>`
    - Add relevant lessons to the implementation context for every affected unit
-4. Detect current branch — create feature branch or worktree if on main when the user wants branch isolation
+4. Detect current branch. If on `main` or another protected branch and the user
+   has not specified a branch strategy, issue an `AskUserQuestion` (single-select,
+   header `"Branch"`, recommended option first) per
+   `kitty/references/ask-user-protocol.md`:
+
+   ```yaml
+   question: "You are on `main` and the plan modifies tracked files. How should we isolate the work?"
+   header: "Branch"
+   multiSelect: false
+   options:
+     - label: "Create feature branch (Recommended)"
+       description: "Branch off main, work there, leave main untouched."
+     - label: "Create a worktree"
+       description: "Isolate the change in a separate worktree."
+     - label: "Stay on current branch"
+       description: "Edit in place — only safe if the user explicitly accepts."
+   ```
+
+   Skip the prompt when the user already specified a branch strategy or when
+   running in pipeline mode (use the recommended option).
 5. Create task list from implementation units with dependencies
 
 ### Phase 2: Choose Execution Strategy
@@ -107,8 +126,29 @@ registry as part of the required contract.
 3. Verify all tasks are completed
 4. If plan has Requirements Trace, verify each requirement is satisfied
 5. Summarize memory usage: queried entries, applied lessons, and newly recorded lessons
-6. Commit with conventional format when the user wants a commit
-7. Push and create PR only when explicitly requested or when the active runtime/workflow guarantees it
+6. When uncommitted changes exist and the user has not specified a commit
+   strategy, issue an `AskUserQuestion` (single-select, header `"Commit"`,
+   recommended option first) per `kitty/references/ask-user-protocol.md`:
+
+   ```yaml
+   question: "Implementation is complete with uncommitted changes. How should we land them?"
+   header: "Commit"
+   multiSelect: false
+   options:
+     - label: "Commit now (Recommended)"
+       description: "Create a conventional-format commit with the implementation summary."
+     - label: "Stage for review"
+       description: "Run `git add` only; leave the commit message to the user."
+     - label: "Leave dirty"
+       description: "Do not stage or commit; the user will handle git themselves."
+   ```
+
+   Skip the prompt when the user already specified a commit strategy or in
+   pipeline mode (use the recommended option, but fall back to "Leave dirty" if
+   tests are failing).
+7. Push and create PR only when explicitly requested or when the active
+   runtime/workflow guarantees it. Do not auto-prompt for push/PR — keep the
+   default to require explicit user request.
 
 **PR template:**
 ```
@@ -145,3 +185,5 @@ Carry forward execution notes from the plan:
 - May delegate when the runtime supports it cleanly.
 - Must not require swarm primitives, background task registries, or automatic PR creation.
 - Must query litter/treat memory before implementation and record validated durable lessons after work.
+- Must issue branch-strategy and commit-strategy prompts via `AskUserQuestion`
+  per `kitty/references/ask-user-protocol.md`. Pipeline mode skips both prompts.
