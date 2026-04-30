@@ -217,17 +217,17 @@ Find what depends on a node (impact analysis). Returns nodes that depend on this
 
 Rank nodes by importance (in-degree or transitive dependents).
 
-    Parameters
-    ----------
-    scope : list[str] | None
-        Optional list of file paths or qualified names to restrict the ranking.
-    kind : str | None
-        Filter to a specific node kind (e.g. "class", "function").
-    limit : int
-        Maximum number of results to return.
-    algorithm : str
-        "in_degree" (default) for direct edge count, or "transitive" for
-        recursive reverse-dependency count.
+Parameters
+----------
+scope : list[str] | None
+    Optional list of file paths or qualified names to restrict the ranking.
+kind : str | None
+    Filter to a specific node kind (e.g. "class", "function").
+limit : int
+    Maximum number of results to return.
+algorithm : str
+    "in_degree" (default) for direct edge count, or "transitive" for
+    recursive reverse-dependency count.
 
 ### Parameters
 
