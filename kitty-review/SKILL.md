@@ -8,6 +8,27 @@ description: >
   autofix (mode:autofix), report-only (mode:report-only).
   Requires the Cartographing Kittens MCP server (`uvx cartographing-kittens`).
 argument-hint: "[branch|PR number] [mode:autofix|mode:report-only] [plan:path]"
+allowed-tools:
+  - Read
+  - Edit
+  - Write
+  - Bash
+  - Grep
+  - Glob
+  - query_node
+  - batch_query_nodes
+  - get_file_structure
+  - find_dependents
+  - find_dependencies
+  - rank_nodes
+  - validate_graph
+  - search
+  - annotation_status
+  - index_codebase
+  - query_litter_box
+  - query_treat_box
+  - add_litter_box_entry
+  - add_treat_box_entry
 metadata:
   short-description: Review code changes with graph-aware structural analysis beyond the diff.
   source: https://github.com/Kakise/cartographing-kitties-skills/blob/main/kitty-review/SKILL.md

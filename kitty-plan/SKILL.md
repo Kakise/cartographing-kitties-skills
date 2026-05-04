@@ -7,6 +7,27 @@ description: >
   actionable plan. Uses inline-first research and optional delegation for comprehensive analysis.
   Requires the Cartographing Kittens MCP server (`uvx cartographing-kittens`).
 argument-hint: "[feature description or requirements doc path]"
+paths:
+  - "docs/plans/*.md"
+  - "docs/brainstorms/*.md"
+allowed-tools:
+  - Read
+  - Edit
+  - Write
+  - Grep
+  - Glob
+  - query_node
+  - batch_query_nodes
+  - search
+  - get_context_summary
+  - get_file_structure
+  - find_dependencies
+  - find_dependents
+  - rank_nodes
+  - annotation_status
+  - query_litter_box
+  - query_treat_box
+  - index_codebase
 metadata:
   short-description: Turn requirements into an actionable implementation plan with graph-powered research.
   source: https://github.com/Kakise/cartographing-kitties-skills/blob/main/kitty-plan/SKILL.md

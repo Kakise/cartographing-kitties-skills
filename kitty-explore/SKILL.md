@@ -7,6 +7,27 @@ description: >
   to browse definitions, imports, and relationships. Prefer over grep/glob for
   structural and relational questions about code organization.
   Requires the Cartographing Kittens MCP server (`uvx cartographing-kittens`).
+argument-hint: "[file path or symbol]"
+paths:
+  - "src/**"
+  - "lib/**"
+  - "app/**"
+  - "**/*.py"
+  - "**/*.ts"
+allowed-tools:
+  - Read
+  - Grep
+  - Glob
+  - query_node
+  - batch_query_nodes
+  - get_context_summary
+  - get_file_structure
+  - find_dependents
+  - find_dependencies
+  - rank_nodes
+  - search
+  - annotation_status
+  - index_codebase
 metadata:
   short-description: Browse codebase structure — definitions, imports, calls, inheritance — through the AST graph.
   source: https://github.com/Kakise/cartographing-kitties-skills/blob/main/kitty-explore/SKILL.md

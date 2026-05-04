@@ -1,0 +1,8 @@
+# Codex implicit-invocation policy for kitty:work.
+#
+# kitty:work mutates files according to a plan document. Auto-invoking it from
+# a tool call could rewrite the working tree without the user's consent, so
+# implicit invocation is disabled.
+
+allow_implicit_invocation: false
+category: developer-tools

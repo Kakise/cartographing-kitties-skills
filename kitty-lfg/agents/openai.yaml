@@ -1,0 +1,8 @@
+# Codex implicit-invocation policy for kitty:lfg.
+#
+# kitty:lfg orchestrates plan → work → review autonomously. Auto-invoking it
+# from a tool call would skip the user's intent check, so implicit invocation
+# is disabled.
+
+allow_implicit_invocation: false
+category: developer-tools

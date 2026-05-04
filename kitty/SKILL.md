@@ -113,6 +113,26 @@ Pipeline: `kitty:brainstorm` → `kitty:plan` → `kitty:work` → `kitty:review
 
 Or use `kitty:lfg` to run plan → work → review autonomously.
 
+## Agent Spawn Map
+
+Each workflow skill spawns a fixed roster of framework subagents declared in
+`plugins/kitty/agents/manifest.json`. Every agent must appear in at least one
+column below — `scripts/validate_skills.py` enforces it.
+
+| Skill | Always-on | Conditional |
+|---|---|---|
+| `kitty:plan` | `librarian-kitten-researcher`, `librarian-kitten-pattern` | `librarian-kitten-flow`, `librarian-kitten-impact` |
+| `kitty:work` | (none — inline orchestrator) | `librarian-kitten-researcher`, `librarian-kitten-pattern` (per unit, when graph context is dense) |
+| `kitty:review` | `expert-kitten-correctness`, `expert-kitten-testing` | `expert-kitten-impact` (≥3 files changed), `expert-kitten-structure` (new files / module boundary changes), `expert-kitten-context` (subgraph context ≥10k tokens) |
+| `kitty:annotate` | `cartographing-kitten` | — |
+| `kitty:brainstorm` | `librarian-kitten-researcher` | `librarian-kitten-pattern` |
+| `kitty:lfg` | (delegates to `kitty:plan` → `kitty:work` → `kitty:review`) | — |
+| `kitty:explore` | (none — inline orchestrator only) | — |
+| `kitty:impact` | (none — inline orchestrator only) | — |
+
+Output contract: every agent returns the unified shape documented in
+[`references/agent-output-contract.md`](references/agent-output-contract.md).
+
 ## Quick start
 
 1. **First use or stale index** → call `index_codebase(full=false)` for incremental, `full=true` for full reindex
