@@ -7,6 +7,13 @@ tool signatures/docstrings, then run `uv run python scripts/generate_tool_refere
 
 Query multiple nodes in one call. Returns found nodes with optional neighbors.
 
+Each entry in ``nodes`` (and any nested ``neighbors[i].node``) carries a
+``centrality`` field — a weighted-PageRank score in ``[0, 1]`` reflecting
+structural importance. The cache is refreshed lazily on first read after
+the graph changes and is stable within a graph version, so callers may use
+it as a secondary sort key. See ``summarise_node`` in this module for the
+canonical per-node schema.
+
 ### Parameters
 
 | Name | Required | Type | Default |
@@ -98,6 +105,12 @@ Query multiple nodes in one call. Returns found nodes with optional neighbors.
 ## `get_context_summary`
 
 Get a compact grouped summary of nodes, optionally with edges between them.
+
+Each entry under ``groups`` carries a ``centrality`` field — a
+weighted-PageRank score in ``[0, 1]`` reflecting structural importance.
+The cache is refreshed lazily on first read after the graph changes and is
+stable within a graph version, so callers may use it as a secondary sort
+key. See ``summarise_node`` in this module for the canonical per-node schema.
 
 ### Parameters
 
@@ -205,6 +218,12 @@ Get a compact grouped summary of nodes, optionally with edges between them.
 
 Get all nodes in a given file with their relationships.
 
+Each entry in ``nodes`` carries a ``centrality`` field — a weighted-PageRank
+score in ``[0, 1]`` reflecting structural importance. The cache is
+refreshed lazily on first read after the graph changes and is stable within
+a graph version, so callers may use it as a secondary sort key. See
+``summarise_node`` in this module for the canonical per-node schema.
+
 ### Parameters
 
 | Name | Required | Type | Default |
@@ -288,6 +307,13 @@ Get all nodes in a given file with their relationships.
 
 Find a node by name or qualified name. Returns node details with immediate neighbors.
 
+The returned ``node`` (and each ``neighbors[i].node``) carries a
+``centrality`` field — a weighted-PageRank score in ``[0, 1]`` reflecting
+structural importance. The cache is refreshed lazily on first read after
+the graph changes and is stable within a graph version, so callers may use
+it as a secondary sort key. See ``summarise_node`` in this module for the
+canonical per-node schema.
+
 ### Parameters
 
 | Name | Required | Type | Default |
@@ -344,6 +370,12 @@ Find a node by name or qualified name. Returns node details with immediate neigh
 ## `search`
 
 Full-text search across node names and summaries. Returns ranked results.
+
+Each entry in ``results`` carries a ``centrality`` field — a
+weighted-PageRank score in ``[0, 1]`` reflecting structural importance.
+The cache is refreshed lazily on first read after the graph changes and is
+stable within a graph version, so callers may use it as a secondary sort
+key. See ``summarise_node`` in this module for the canonical per-node schema.
 
 ### Parameters
 
