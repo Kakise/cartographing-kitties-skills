@@ -229,6 +229,13 @@ algorithm : str
     "in_degree" (default) for direct edge count, or "transitive" for
     recursive reverse-dependency count.
 
+Each entry in ``ranked`` carries a ``centrality`` field — a weighted-PageRank
+score in ``[0, 1]`` reflecting structural importance, distinct from the
+chosen ``algorithm`` score. The cache is refreshed lazily on first read
+after the graph changes and is stable within a graph version, so callers
+may use it as a secondary sort key. See ``summarise_node`` in
+``src/cartograph/server/tools/query.py`` for the canonical per-node schema.
+
 ### Parameters
 
 | Name | Required | Type | Default |
