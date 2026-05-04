@@ -139,6 +139,56 @@ Returns:
 }
 ```
 
+## `get_agent_handoff`
+
+Fetch a persisted agent-handoff payload by its ``run_id``.
+
+Skills stage agent run results via the unified output contract; the
+orchestrator carries only the ``run_id`` through the conversation and pulls
+the full payload here at synthesis time. Expired records (TTL elapsed) are
+treated as missing.
+
+Args:
+    run_id: The handle returned by ``stage_handoff``.
+
+Returns:
+    Dict with the handoff record fields, or ``{"error": ...}`` when the
+    run_id is unknown or expired.
+
+### Parameters
+
+| Name | Required | Type | Default |
+|---|---:|---|---|
+| `run_id` | yes | `string` | `None` |
+
+### Input Schema
+
+```json
+{
+  "properties": {
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "run_id"
+  ],
+  "title": "get_agent_handoffArguments",
+  "type": "object"
+}
+```
+
+### Output Schema
+
+```json
+{
+  "additionalProperties": true,
+  "title": "get_agent_handoffDictOutput",
+  "type": "object"
+}
+```
+
 ## `query_litter_box`
 
 Query negative lessons from the litter box.
@@ -147,9 +197,13 @@ Args:
     category: Optional filter — one of 'failure', 'anti-pattern', 'unsupported', 'regression', 'never-do'.
     search: Optional substring to search for in descriptions.
     limit: Maximum number of entries to return (default 50).
+    token_budget: Optional approximate token budget (len/4). When set the result
+        is re-ranked by ``relevance_score`` and truncated to fit; ``truncated``
+        in the response is True when entries were dropped to honor the budget.
 
 Returns:
-    Dict with count and list of matching entries.
+    Dict with count, list of matching entries (each carrying ``relevance_score``),
+    and a ``truncated`` flag indicating whether the budget caused truncation.
 
 ### Parameters
 
@@ -158,6 +212,7 @@ Returns:
 | `category` | no | `string | null` | `None` |
 | `search` | no | `string | null` | `None` |
 | `limit` | no | `integer` | `50` |
+| `token_budget` | no | `integer | null` | `None` |
 
 ### Input Schema
 
@@ -192,6 +247,18 @@ Returns:
       "default": 50,
       "title": "Limit",
       "type": "integer"
+    },
+    "token_budget": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Token Budget"
     }
   },
   "title": "query_litter_boxArguments",
@@ -217,9 +284,11 @@ Args:
     category: Optional filter — one of 'best-practice', 'validated-pattern', 'always-do', 'convention', 'optimization'.
     search: Optional substring to search for in descriptions.
     limit: Maximum number of entries to return (default 50).
+    token_budget: Optional approximate token budget (len/4). See ``query_litter_box``.
 
 Returns:
-    Dict with count and list of matching entries.
+    Dict with count, list of matching entries (each carrying ``relevance_score``),
+    and a ``truncated`` flag indicating whether the budget caused truncation.
 
 ### Parameters
 
@@ -228,6 +297,7 @@ Returns:
 | `category` | no | `string | null` | `None` |
 | `search` | no | `string | null` | `None` |
 | `limit` | no | `integer` | `50` |
+| `token_budget` | no | `integer | null` | `None` |
 
 ### Input Schema
 
@@ -262,6 +332,18 @@ Returns:
       "default": 50,
       "title": "Limit",
       "type": "integer"
+    },
+    "token_budget": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Token Budget"
     }
   },
   "title": "query_treat_boxArguments",

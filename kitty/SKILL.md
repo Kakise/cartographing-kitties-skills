@@ -123,7 +123,7 @@ column below — `scripts/validate_skills.py` enforces it.
 |---|---|---|
 | `kitty:plan` | `librarian-kitten-researcher`, `librarian-kitten-pattern` | `librarian-kitten-flow`, `librarian-kitten-impact` |
 | `kitty:work` | (none — inline orchestrator) | `librarian-kitten-researcher`, `librarian-kitten-pattern` (per unit, when graph context is dense) |
-| `kitty:review` | `expert-kitten-correctness`, `expert-kitten-testing` | `expert-kitten-impact` (≥3 files changed), `expert-kitten-structure` (new files / module boundary changes) |
+| `kitty:review` | `expert-kitten-correctness`, `expert-kitten-testing` | `expert-kitten-impact` (≥3 files changed), `expert-kitten-structure` (new files / module boundary changes), `expert-kitten-context` (subgraph context ≥10k tokens) |
 | `kitty:annotate` | `cartographing-kitten` | — |
 | `kitty:brainstorm` | `librarian-kitten-researcher` | `librarian-kitten-pattern` |
 | `kitty:lfg` | (delegates to `kitty:plan` → `kitty:work` → `kitty:review`) | — |
