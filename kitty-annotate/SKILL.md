@@ -6,6 +6,24 @@ description: >
   semantic search", "add summaries", "tag nodes", or when annotation_status shows
   many pending nodes. Also use when search results are poor because nodes lack summaries.
   Requires the Cartographing Kittens MCP server (`uvx cartographing-kittens`).
+disable-model-invocation: true
+paths:
+  - "**/*.py"
+  - "**/*.ts"
+  - "**/*.tsx"
+  - "**/*.js"
+  - "**/*.jsx"
+allowed-tools:
+  - Read
+  - Grep
+  - Glob
+  - Bash
+  - annotation_status
+  - get_pending_annotations
+  - submit_annotations
+  - find_low_quality_annotations
+  - requeue_low_quality_annotations
+  - index_codebase
 metadata:
   short-description: Enrich the codebase graph with LLM-generated summaries, tags, and roles for semantic search.
   source: https://github.com/Kakise/cartographing-kitties-skills/blob/main/kitty-annotate/SKILL.md

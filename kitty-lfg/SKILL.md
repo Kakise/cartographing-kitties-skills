@@ -6,6 +6,18 @@ description: >
   Requires the Cartographing Kittens MCP server (`uvx cartographing-kittens`).
 argument-hint: "[feature description]"
 disable-model-invocation: true
+allowed-tools:
+  - Read
+  - Edit
+  - Write
+  - Bash
+  - Grep
+  - Glob
+  - query_litter_box
+  - query_treat_box
+  - add_litter_box_entry
+  - add_treat_box_entry
+  - index_codebase
 metadata:
   short-description: Run plan → work → review autonomously, with graph-aware orchestration.
   source: https://github.com/Kakise/cartographing-kitties-skills/blob/main/kitty-lfg/SKILL.md

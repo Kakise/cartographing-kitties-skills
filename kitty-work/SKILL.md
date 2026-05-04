@@ -7,6 +7,28 @@ description: >
   inline execution by default with optional serial or parallel delegation when the runtime supports it.
   Requires the Cartographing Kittens MCP server (`uvx cartographing-kittens`).
 argument-hint: "[plan file path]"
+disable-model-invocation: true
+paths:
+  - "docs/plans/*.md"
+allowed-tools:
+  - Read
+  - Edit
+  - Write
+  - Bash
+  - Grep
+  - Glob
+  - query_node
+  - get_file_structure
+  - find_dependents
+  - find_dependencies
+  - rank_nodes
+  - annotation_status
+  - graph_diff
+  - validate_graph
+  - query_litter_box
+  - query_treat_box
+  - add_litter_box_entry
+  - add_treat_box_entry
 metadata:
   short-description: Execute an implementation plan with graph-aware blast-radius checks per unit.
   source: https://github.com/Kakise/cartographing-kitties-skills/blob/main/kitty-work/SKILL.md

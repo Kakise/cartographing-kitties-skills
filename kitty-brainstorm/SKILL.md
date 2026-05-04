@@ -7,6 +7,26 @@ description: >
   Uses inline-first research and optional delegation when the runtime supports it cleanly.
   Requires the Cartographing Kittens MCP server (`uvx cartographing-kittens`).
 argument-hint: "[feature or problem description]"
+paths:
+  - "docs/brainstorms/*.md"
+  - "src/**"
+  - "lib/**"
+allowed-tools:
+  - Read
+  - Edit
+  - Write
+  - Grep
+  - Glob
+  - query_node
+  - search
+  - get_file_structure
+  - find_dependencies
+  - find_dependents
+  - rank_nodes
+  - annotation_status
+  - query_litter_box
+  - query_treat_box
+  - index_codebase
 metadata:
   short-description: Gather requirements for a feature using graph-powered codebase research.
   source: https://github.com/Kakise/cartographing-kitties-skills/blob/main/kitty-brainstorm/SKILL.md

@@ -8,6 +8,24 @@ description: >
   rename, or deletion. Use find_dependents for blast radius and find_dependencies
   for understanding what a symbol needs.
   Requires the Cartographing Kittens MCP server (`uvx cartographing-kittens`).
+argument-hint: "[symbol or file path]"
+paths:
+  - "src/**"
+  - "lib/**"
+  - "app/**"
+  - "**/*.py"
+  - "**/*.ts"
+allowed-tools:
+  - Read
+  - Grep
+  - Glob
+  - query_node
+  - find_dependents
+  - find_dependencies
+  - rank_nodes
+  - validate_graph
+  - annotation_status
+  - index_codebase
 metadata:
   short-description: Assess change blast radius and dependency chains via transitive graph traversal.
   source: https://github.com/Kakise/cartographing-kitties-skills/blob/main/kitty-impact/SKILL.md
